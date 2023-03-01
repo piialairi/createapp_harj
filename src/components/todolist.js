@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import TodoTable from './TodoTable';
+
 
 export default function Todolist() {
     //const [description, setDescription] = useState(''); // ei tarvitse React. alkuun, koska importoitu alussa
@@ -34,21 +36,9 @@ export default function Todolist() {
                 placeholder='Date'
                 value={todo.date}
                 onChange={e => setTodo({ ...todo, date: e.target.value })} />
-            <button onClick={handleAddTodo}>Add Todo</button>
-            <table>
-                <tbody>
-                    <tr><th>Description</th><th>Date</th></tr>
-                    {
-                        todos.map((todo, index) =>
-                            <tr key={index}>
-                                <td>{todo.description}</td>
-                                <td>{todo.date}</td>
-                                <td><button onClick={() => handleDeleteTodo(index)}>Done</button></td>
+            <button onClick={handleAddTodo}>Add</button>
 
-                            </tr>)
-                    }
-                </tbody>
-            </table>
+            <TodoTable todos={todos} />
         </div >
     );
 }
