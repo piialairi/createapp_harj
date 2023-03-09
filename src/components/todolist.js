@@ -19,7 +19,7 @@ export default function Todolist() {
     }
 
     const handleDeleteTodo = (row) => {
-        setTodos(todos.filter((todo, index) => row !== index)); //poistaa uudesta taulukosta sen, mikä ei ole tosi
+        setTodos(todos.filter((todo, index) => row != index)); //poistaa uudesta taulukosta sen, mikä ei ole tosi
         //console.log("Delete todo" + row);
     }
 
@@ -38,7 +38,7 @@ export default function Todolist() {
                 onChange={e => setTodo({ ...todo, date: e.target.value })} />
             <button onClick={handleAddTodo}>Add</button>
 
-            <TodoTable todos={todos} />
+            <TodoTable todos={todos} deleteTodo={handleDeleteTodo} />
         </div >
     );
 }
