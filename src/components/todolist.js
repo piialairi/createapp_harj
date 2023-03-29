@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import dayjs from 'dayjs';
 
 export default function Todolist() {
     //const [description, setDescription] = useState(''); // ei tarvitse React. alkuun, koska importoitu alussa
@@ -34,7 +34,10 @@ export default function Todolist() {
             field: 'priority', sortable: true, filter: true, floatingFilter: true,
             cellStyle: params => params.value === 'High' ? { color: 'red' } : { color: 'black' }
         },
-        { field: 'date', sortable: true, filter: true, floatingFilter: true }
+        {
+            field: 'date', sortable: true, filter: true, floatingFilter: true,
+            valueFormatter: params => dayjs(params.value).format('DD.MM.YY')
+        }
     ])
 
     const handleAddTodo = () => {
@@ -56,7 +59,6 @@ export default function Todolist() {
         }
     };
 
-
     return (
         <div>
             <Stack direction='row'
@@ -75,11 +77,16 @@ export default function Todolist() {
                     value={todo.priority}
                     onChange={e => setTodo({ ...todo, priority: e.target.value })}
                 />
-                <TextField
-                    variant='standard'
-                    label='Date'
-                    value={todo.date}
-                    onChange={e => setTodo({ ...todo, date: e.target.value })} />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        label='Date'
+                        value={todo.date}
+                        format="DD.MM.YY"
+                        onChange={newValue => {
+                            setTodo({ ...todo, date: newValue });
+                        }}
+                    />
+                </LocalizationProvider>
 
                 <Button
                     size='medium'
@@ -108,5 +115,5 @@ export default function Todolist() {
 
         </div >
     );
-}
 
+}
